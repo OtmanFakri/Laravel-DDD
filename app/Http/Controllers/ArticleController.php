@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
+
+use Src\Article\Resources\ArticleRousource;
+
 
 class ArticleController extends Controller
 {
@@ -19,7 +22,9 @@ class ArticleController extends Controller
 
     public function index()
     {
-        return Article::all();
+        $user =QueryBuilder::for(Article::class)
+            ->paginate(5);
+        return ArticleRousource::collection($user);
     }
 
     public function show(Article $article)
