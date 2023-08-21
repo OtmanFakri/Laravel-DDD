@@ -2,6 +2,7 @@
 
 namespace Src\User\Resources;
 
+use Illuminate\Http\Resources\Json\JsonResource;
 use TiMacDonald\JsonApi\JsonApiResource;
 
 class UserResource extends JsonApiResource

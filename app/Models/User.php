@@ -71,4 +71,9 @@ class User extends Authenticatable implements JWTSubject
             Article::class,
             'user_id',);
     }
+
+    //builder
+    //public function newEloquentBuilder($query)
+    //{
+    //}
 }
