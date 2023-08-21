@@ -11,7 +11,7 @@ class PostFactory
         return new PostValueObjects(
             title: $postValueObjects['title'],
             body: $postValueObjects['body'],
-            user_id: $postValueObjects['user_id'],
+            //user_id: $postValueObjects['user_id'],
         );
     }
 

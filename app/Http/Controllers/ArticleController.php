@@ -5,6 +5,7 @@ use App\Models\Article;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
+use Src\Article\Jobs\JobCreateArticle;
 use Src\Article\Repositories\ArticleRepository;
 use Src\Article\Requests\CreateRequests;
 use Src\Article\Resources\ArticleRousource;
@@ -39,11 +40,14 @@ class ArticleController extends Controller
     public function store(CreateRequests $CreateArtocle)
     {
 
-        $article = new ArticleRepository();
+        //$article = new ArticleRepository();
 
-        $Storenew= $article->create(
+        JobCreateArticle::dispatch(
             PostFactory::create($CreateArtocle->validated())
         );
+       // $Storenew= $article->create(
+        //    PostFactory::create($CreateArtocle->validated())
+        //);
         //$article =$CreateArtocle->validated();
 
         return response()->json($CreateArtocle->validated(), 201);

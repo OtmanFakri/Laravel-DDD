@@ -26,9 +26,9 @@ class CreateRequests extends FormRequest
                 'required',
                 'string'],
 
-            'user_id' => [
-                'required',
-                'exists:users,id',],
+           // 'user_id' => [
+            //    'required',
+             //   'exists:users,id',],
         ];
     }
 }
