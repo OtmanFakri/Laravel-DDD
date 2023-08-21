@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use Src\Article\Jobs\JobCreateArticle;
+use Src\Article\Jobs\JobUpdateArticle;
 use Src\Article\Repositories\ArticleRepository;
 use Src\Article\Requests\CreateRequests;
+use Src\Article\Requests\UpdateRequests;
 use Src\Article\Resources\ArticleRousource;
 use Src\Article\Factories\PostFactory;
 
@@ -34,7 +36,11 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
-        return ArticleRousource::make($article);
+        $articles =QueryBuilder::for(Article::class)
+            ->allowedIncludes(['user'])
+            ->where('id',$article->id)
+            ->first();
+        return ArticleRousource::make($articles);
     }
 
     public function store(CreateRequests $CreateArtocle)
@@ -54,11 +60,21 @@ class ArticleController extends Controller
 
     }
 
-    public function update(Request $request, Article $article)
+    public function update(UpdateRequests $request, Article $article)
     {
-        $article->update($request->all());
+        //Autherization Policy
 
-        return response()->json($article, 200);
+        //$update= ArticleRepository::update(
+        //    PostFactory::update($request->validated()),
+        //    $article
+        //);
+        JobUpdateArticle::dispatch(
+            PostFactory::update($request->validated()),
+            $article
+        );
+
+
+        return response()->json($request->validated(), 201);
     }
 
     public function delete(Article $article)

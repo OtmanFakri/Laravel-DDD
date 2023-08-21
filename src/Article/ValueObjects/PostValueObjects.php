@@ -19,5 +19,6 @@ class PostValueObjects
             //'user_id' => $this->user_id,
         ];
     }
+
 }
 
