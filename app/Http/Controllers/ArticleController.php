@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\Article;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use Src\Article\Jobs\JobCreateArticle;
@@ -64,6 +63,7 @@ class ArticleController extends Controller
     public function update(UpdateRequests $request, Article $article)
     {
         //Autherization Policy
+        $this->authorize('update', $article);
 
         //$update= ArticleRepository::update(
         //    PostFactory::update($request->validated()),
@@ -80,7 +80,9 @@ class ArticleController extends Controller
 
     public function delete(Article $article)
     {
-        $article->delete();
+        //Autherization Policy
+        $this->authorize('delete', $article);
+        ArticleRepository::delete($article);
 
         return response()->json(null, 204);
     }
