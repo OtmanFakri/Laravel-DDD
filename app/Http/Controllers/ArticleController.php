@@ -36,11 +36,12 @@ class ArticleController extends Controller
 
     public function show(Article $article)
     {
-        $articles =QueryBuilder::for(Article::class)
-            ->allowedIncludes(['user'])
-            ->where('id',$article->id)
-            ->first();
-        return ArticleRousource::make($articles);
+        //$articles =QueryBuilder::for(Article::class)
+        //    ->allowedIncludes(['user'])
+        //    ->where('id',$article->id)
+         //   ->first();
+
+        return ArticleRepository::find($article->id);
     }
 
     public function store(CreateRequests $CreateArtocle)

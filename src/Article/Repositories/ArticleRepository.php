@@ -3,6 +3,8 @@ namespace Src\Article\Repositories;
 
 use App\Models\Article;
 use App\Models\User;
+use Spatie\QueryBuilder\QueryBuilder;
+use Src\Article\Resources\ArticleRousource;
 use Src\Article\ValueObjects\PostValueObjects;
 use Src\Article\ValueObjects\UpdateValueObjects;
 
@@ -32,5 +34,23 @@ class ArticleRepository implements ArticleRepositoryInterface
         $article->save();
 
         return $article;
+    }
+
+    public static function delete(Article $article): bool
+    {
+        $article->delete();
+        return true;
+    }
+
+    public static function find(int $id): ArticleRousource
+    {
+        $article=QueryBuilder::for(
+            Article::where('id', $id)
+        )
+            ->allowedIncludes(['user'])
+            ->firstOrFail();
+
+        return ArticleRousource::make($article);
+
     }
 }
