@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
-use Rinvex\Subscriptions\Models\PlanSubscription;
-use Spatie\QueryBuilder\QueryBuilder;
+
 use Src\Subscription\Repositories\RepositorySubscription;
 use Src\Subscription\Resources\SubscriptionResource;
 
