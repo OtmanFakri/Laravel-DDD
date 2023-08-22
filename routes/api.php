@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\IndexSubscription;
+use App\Http\Controllers\API\ShowSubscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -39,3 +41,8 @@ Route::delete('articles/{article}', 'App\Http\Controllers\ArticleController@dele
 
 //Plans
 Route::get('/plans', 'App\Http\Controllers\Plans@Store');
+
+Route::prefix('subscription')->group(function () {
+    Route::get('/', IndexSubscription::class);
+    Route::get('/{subscription}', ShowSubscription::class);
+});

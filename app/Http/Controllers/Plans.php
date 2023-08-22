@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Rinvex\Subscriptions\Models\Plan;
 use Rinvex\Subscriptions\Models\PlanFeature;
+use Rinvex\Subscriptions\Models\PlanSubscription;
+use Spatie\QueryBuilder\QueryBuilder;
+use Src\Subscription\Resources\SubscriptionResource;
 
 class Plans extends Controller
 {
@@ -14,13 +18,16 @@ class Plans extends Controller
     {
 
 
-        $user = User::find(1);
-        $user->subscribedTo(2);
-        //$subscriptions = app('rinvex.subscriptions.plan_subscription')->byPlanId(1)->get();
-        $subscription = $user->activeSubscription();
+        $plans=QueryBuilder::for(
+            PlanSubscription::class
+        )
+            ->allowedIncludes(['subscriber'])
+            ->paginate(5);
 
-        $bookingsOfSubscriber = app('rinvex.subscriptions.plan_subscription')->ofSubscriber($user)->get();
+        return response()
+            ->json(
+                SubscriptionResource::collection($plans)
+                ,200);
 
-        return response()->json($subscription, 201);
     }
 }
